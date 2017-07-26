@@ -11,3 +11,13 @@ export const decrement = {
     langkah: 10
   }
 }
+
+
+export const addUser = (user_name) => {
+  return {
+    type: 'ADD_USER',
+    payload: {
+      userName: user_name
+    }
+  }
+}

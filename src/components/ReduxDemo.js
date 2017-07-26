@@ -1,7 +1,9 @@
 import React from 'react';
+import { Provider } from 'react-redux'
 
 import store from '../stores'
 import { increment, decrement } from '../actions'
+import UserList from './UserList'
 
 class ReduxDemo extends React.Component{
 
@@ -21,11 +23,16 @@ class ReduxDemo extends React.Component{
   render(){
 
     return(
-      <div>
-        <h1>Counter: {this.state._counter}</h1>
-        <button onClick={() => store.dispatch(increment) }> INCREMENT </button>
-        <button onClick={() => store.dispatch(decrement) }> DECREMENT </button>
-      </div>
+      <Provider store={store}>
+        <div>
+          <h1>Counter: {this.state._counter}</h1>
+          <button onClick={() => store.dispatch(increment) }> INCREMENT </button>
+          <button onClick={() => store.dispatch(decrement) }> DECREMENT </button>
+
+          <UserList/>
+        </div>
+
+      </Provider>
     )
   }
 }
