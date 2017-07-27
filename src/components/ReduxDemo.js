@@ -1,5 +1,5 @@
 import React from 'react';
-import { Provider } from 'react-redux'
+import { connect } from 'react-redux'
 
 import store from '../stores'
 import { increment, decrement } from '../actions'
@@ -22,19 +22,24 @@ class ReduxDemo extends React.Component{
 
   render(){
 
+    const { props } = this
     return(
-      <Provider store={store}>
         <div>
           <h1>Counter: {this.state._counter}</h1>
-          <button onClick={() => store.dispatch(increment) }> INCREMENT </button>
-          <button onClick={() => store.dispatch(decrement) }> DECREMENT </button>
+          <button onClick={() => props.increment() }> INCREMENT </button>
+          <button onClick={() => props.decrement() }> DECREMENT </button>
 
           <UserList/>
         </div>
 
-      </Provider>
     )
   }
 }
 
-export default ReduxDemo
+const mapDispatchToProps = (dispatch) => {
+  return {
+    decrement: () => dispatch(decrement()),
+    increment: () => dispatch(increment())
+  }
+}
+export default connect(null, mapDispatchToProps)(ReduxDemo)

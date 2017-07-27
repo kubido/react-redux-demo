@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux'
 
-export default class ListNews extends React.Component{
+import { fetchNewsAsync as fetchNews } from '../actions'
+
+class ListNews extends React.Component{
   constructor(){
     super();
     this.state = {
@@ -21,19 +24,30 @@ export default class ListNews extends React.Component{
 
 
   render(){
+    const { props } = this
     return (
       <div>
-        <h1> This is a react component </h1>
-        <form>
-          <input onChange={(e) => this.setState({personName: e.target.val() })}/>
-        </form>
-        <ul>
-          { this.state.dataNews.map( (idx) => 
-            <li key={idx}>News {idx} </li>
-          )}
-        </ul>
-        <button onClick={(e) => this.addNews(e.target)}> Add news </button>
+        <h1> This is list news </h1>
+      <button onClick={() => props.ambilNews() }> Fetch news </button>
+      <ul>
+          {props.news.map( (_news, idx) => {
+            return <li key={idx}> {_news.title} </li>
+          }) }
+      </ul>
       </div>
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ambilNews: () => dispatch(fetchNews())
+  }
+}
+
+const mapStateToProps = (state) => {
+  return  {
+    news: state.stateCounter.news
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ListNews)
