@@ -2,17 +2,22 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Todo from './components/Todo'
+import store from './store'
+import { add_todo } from './actions/TodoActions'
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentValue: "",
-      todos: [
-        {name: "Ngoding"},
-        {name: "Makan"}
-      ]
+      todos: store.getState().todos
     }  
+
+    store.subscribe(() => {
+      this.setState({
+        todos: store.getState().todos
+      })
+    })
   }
 
   handleChange(value){
@@ -21,24 +26,6 @@ class App extends Component {
     })
   }
 
-  addTodo(){
-    const todoValue = this.state.currentValue
-
-    const newTodos = this.state.todos
-    newTodos.push({name: todoValue})
-    this.setState({
-      todos: newTodos
-    })
-  }
-
-  removeTodo(idx){    
-    const newTodos = this.state.todos
-    console.log(idx)
-    newTodos.splice(idx, 1)
-    this.setState({
-      todos: newTodos
-    })
-  }
 
   render() {
 
@@ -46,8 +33,8 @@ class App extends Component {
       <div>
         <p> current_value : { this.state.currentValue }</p>
         <input onChange={ (e) => this.handleChange(e.target.value) }></input>
-        <button onClick={ () => this.addTodo() }>Add</button>
-        <Todo todos={this.state.todos} udinFunction={(idx) => this.removeTodo(idx)}/>
+        <button onClick={ () => store.dispatch(add_todo(this.state.currentValue)) }>Add</button>
+        <Todo/>
       </div>
     );
   }
