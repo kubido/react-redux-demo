@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 
 import './App.css';
 import Button from './components/Button'
+import UserList from './components/UserList'
 
 class App extends Component {
   constructor(){
@@ -31,9 +32,7 @@ class App extends Component {
             <Button/>
             <hr/>
             <h1>List User</h1>
-            <ul>
-              { this.state.users.map( (user,idx) => <li key={idx}>{user.name}, {user.age}</li> )}
-            </ul>
+            <UserList/>
           </div>
         </div>
       </Provider>

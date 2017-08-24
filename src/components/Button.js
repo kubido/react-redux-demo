@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { increment, decrement, update_step} from '../actions/CounterActions'
+import { wrapped_add_user } from '../actions/UserActions'
 
 const Button = (props) => {
   return(
@@ -16,6 +17,7 @@ const Button = (props) => {
       </select>
       <button onClick={() => props.increment(props.langkah) }> Increment </button>
       <button onClick={() => props.decrement(props.langkah) }> Decrement </button>
+      <button onClick={() => props.addUser() }> Add user</button>
   </div>
   )
 }
@@ -33,7 +35,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     increment: (step) => dispatch(increment(step) ),
     decrement: (step) => dispatch(decrement(step) ),
-    updateStep: (step) => dispatch(update_step(step))
+    updateStep: (step) => dispatch(update_step(step)),
+    addUser: () => dispatch(wrapped_add_user())
   }
 }
 
