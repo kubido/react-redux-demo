@@ -1,43 +1,54 @@
 import React, { Component } from 'react';
-import store from './stores'
-import { Provider } from 'react-redux'
-
 import './App.css';
-import Button from './components/Button'
-import UserList from './components/UserList'
+
+import Todo from './components/Todo'
 
 class App extends Component {
-  constructor(){
-    super()
-    this.state ={
-      counter: store.getState().counterStore.counter, // 0
-      users: store.getState().userStore.users
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentValue: "",
+      todos: [
+        {name: "Ngoding"},
+        {name: "Makan"}
+      ]
+    }  
+  }
+
+  handleChange(value){
+    this.setState({
+      currentValue: value
+    })
+  }
+
+  addTodo(){
+    const todoValue = this.state.currentValue
+
+    const newTodos = this.state.todos
+    newTodos.push({name: todoValue})
+    this.setState({
+      todos: newTodos
+    })
+  }
+
+  removeTodo(idx){    
+    const newTodos = this.state.todos
+    console.log(idx)
+    newTodos.splice(idx, 1)
+    this.setState({
+      todos: newTodos
+    })
   }
 
   render() {
-    /*store.subscribe(() => {
-      this.setState({
-        counter: store.getState().counterStore.counter // +5
-      })
-    })*/
 
     return (
-      <Provider store={store}>
-        <div>
-          <hr/>
-          <div style={{width: '640px', margin: '0 auto'}} >
-            <h1>Counter</h1>
-            <h2>{this.state.counter}</h2>
-            <Button/>
-            <hr/>
-            <h1>List User</h1>
-            <UserList/>
-          </div>
-        </div>
-      </Provider>
-
-
+      <div>
+        <p> current_value : { this.state.currentValue }</p>
+        <input onChange={ (e) => this.handleChange(e.target.value) }></input>
+        <button onClick={ () => this.addTodo() }>Add</button>
+        <Todo todos={this.state.todos} udinFunction={(idx) => this.removeTodo(idx)}/>
+      </div>
     );
   }
 }
